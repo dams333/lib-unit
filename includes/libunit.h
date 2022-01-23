@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 13:30:27 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:29:45 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include <signal.h>
 # include <string.h>
+# include <time.h>
+# include <fcntl.h>
 
 # define TIMEOUT 10
 
@@ -30,7 +32,7 @@
 # define CYAN "\033[36m" 
 # define RESET "\033[0m" 
 
-int		ft_printf(const char *str, ...);
+int		ft_printf(int fd, const char *str, ...);
 
 /*
  * 	Structur
@@ -74,7 +76,7 @@ t_tests_list	*init_tests_list(char *list_name);
 void	add_test(t_tests_list *test_list, char *description, char *(*ft_test)(void), char *(*waited)(void));
 
 void	launch_test(t_tester *tester);
-void	print_result(int wait_status, int *ok_test);
+void	print_result(int wait_status, int *ok_test, t_test *test, int fd);
 
 t_stdout	*init_stdout_test();
 void	end_stdout_test(t_stdout *output);

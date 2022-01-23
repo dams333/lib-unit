@@ -4,6 +4,7 @@
 		"stdio.h": "c",
 		"libunit.h": "c",
 		"isalpha.h": "c",
-		"ft_atoi.h": "c"
+		"ft_atoi.h": "c",
+		"fcntl.h": "c"
 	}
 }
