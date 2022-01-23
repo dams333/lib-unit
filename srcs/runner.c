@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 17:56:41 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:01:11 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	launch_test(t_tester *tester)
 	}
 	strcat(name, ".log");
 	int fd = open(name, O_WRONLY | O_CREAT);
+	print_header();
 	ft_printf(1, "%s     %s     %s\n", BLUE, tester->name, RESET);
 	ft_printf(fd, "     %s     \n", tester->name);
 	int space = strlen(tester->name) + 10;

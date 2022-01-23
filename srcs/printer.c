@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 17:01:26 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:09:43 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,4 +150,18 @@ void	print_result(int wait_status, int *ok_test, t_test *test, int fd)
 	{
 		print_signal_error(wait_status, test, fd);
 	}
+}
+
+void	print_header()
+{
+	ft_printf(1, "%s", MAGENTA);
+	ft_printf(1, "Created with the help of the\n");
+	ft_printf(1, "  _      _ _     _    _       _ _   \n");
+	ft_printf(1, " | |    (_) |   | |  | |     (_) |  \n");
+	ft_printf(1, " | |     _| |__ | |  | |_ __  _| |_ \n");
+	ft_printf(1, " | |    | | '_ \\| |  | | '_ \\| | __|\n");
+	ft_printf(1, " | |____| | |_) | |__| | | | | | |_ \n");
+	ft_printf(1, " |______|_|_.__/ \\____/|_| |_|_|\\__|\n");
+	ft_printf(1, "                          by dhubleur\n");
+	ft_printf(1, "\n%s", RESET);
 }

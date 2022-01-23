@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 16:43:06 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:00:57 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	add_test(t_tests_list *test_list, char *name, char *code, char *(*ft_test)(
 
 void	launch_test(t_tester *tester);
 void	print_result(int wait_status, int *ok_test, t_test *test, int fd);
+void	print_header();
 
 t_stdout	*init_stdout_test();
 void	end_stdout_test(t_stdout *output);
