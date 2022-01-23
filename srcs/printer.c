@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 12:41:28 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 14:33:30 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_result(int wait_status, int *ok_test)
 	{
 		if (WEXITSTATUS(wait_status) == 0)
 		{
-			ft_printf("%s✅%s ", GREEN, RESET);
+			ft_printf("%s✔%s ", GREEN, RESET);
 			(*ok_test)++;
 		}
 		else if (WEXITSTATUS(wait_status) == SIGALRM)
@@ -50,7 +50,7 @@ void	print_result(int wait_status, int *ok_test)
 		}
 		else
 		{
-			ft_printf("%s❌%s ", RED, RESET);
+			ft_printf("%s✗%s ", RED, RESET);
 		}
 	}
 	else
