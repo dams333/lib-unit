@@ -78,6 +78,8 @@ Global result: (2/4)
 ## STDOUT
 This main:
 ```c
+#include "includes/libunit.h"
+
 void ft_putendl(char *str)
 {
 	write(1, str, strlen(str));
