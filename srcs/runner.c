@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 16:37:34 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 17:56:41 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	launch_test(t_tester *tester)
 {
 	time_t t;
     time(&t);
-	char *name = malloc(1000);
+	char *name = malloc(200);
 	name[0] = '\0';
 	strcat(name, tester->name);
 	strcat(name, "_");
