@@ -33,3 +33,13 @@ This is what your main could look like:
 
 	launch_test(tester);
 ```
+Le résultat d'un tel test ressemblera à cela:
+```
+     Libft Tester     
+----------------------
+
+ft_strlen: ✅ ❌
+ft_atoi: ✅ ❌
+
+Global result: (2/4)
+```
