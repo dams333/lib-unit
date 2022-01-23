@@ -26,8 +26,8 @@ You can test what is written on STDOUT. For this:
 - Do what you want that writes on the STDOUT
 - Use `end_stdout_test` to finish reading
 - You can now retrieve what has been written using the `output` fields of your `t_stdout`.
-## Examples
-### Basic
+# Examples
+## Basic
 This is what your main could look like:
 ```c
 t_tester *tester = init_tester("Libft Tester");
@@ -75,8 +75,7 @@ ft_atoi:
 
 Global result: (2/4)
 ```
----
-### STDOUT Example
+## STDOUT
 This main:
 ```c
 void ft_putendl(char *str)
