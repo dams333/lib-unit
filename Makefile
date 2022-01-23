@@ -6,7 +6,7 @@
 #    By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/08 10:05:58 by dhubleur          #+#    #+#              #
-#    Updated: 2022/01/23 13:21:38 by dhubleur         ###   ########.fr        #
+#    Updated: 2022/01/23 17:13:52 by dhubleur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,26 +37,6 @@ SRCS			=	runner.c \
 
 INCLUDE_DIRS		=	./includes
 
-################################################################################
-#								  Libft										   #
-################################################################################
-
-IS_LIBFT			=	false
-
-LIBFT_DIR			=	./libft
-LIBFT_INCLUDE_DIR	=	./libft
-LIBFT_NAME			=	libft.a
-
-################################################################################
-#								  MiniLibX									   #
-################################################################################
-
-IS_MLX				=	false
-
-MLX_DIR				=	./minilibx-linux
-MLX_INCLUDE_DIR		=	./minilibx-linux
-MLX_NAME			=	minilibx.a
-
 #               /!\ Do not touch the rest of the file /!\ 
 
 ################################################################################
@@ -84,32 +64,10 @@ NO_COLOR	=	\033[m
 
 INCLUDE_FLAGS 	=	$(addprefix -I , ${INCLUDE_DIRS})
 
-LIBFT_COMPLETE	=	$(LIBFT_DIR)/${LIBFT_NAME}
-MLX_COMPLETE	=	$(LIBFT_DIR)/${LIBFT_NAME}
-
-ifeq ($(IS_LIBFT),true)
-	INCLUDE_FLAGS	+=	$(addprefix -I , ${LIBFT_INCLUDE_DIR})
-	ALL_LIBS		+=	$(LIBFT_COMPLETE)
-endif
-
-ifeq ($(IS_MLX),true)
-	INCLUDE_FLAGS	+=	$(addprefix -I , ${MLX_INCLUDE_DIR})
-	ALL_LIBS		+=	$(MLX_COMPLETE)
-endif
-
 ifeq (noflag, $(filter noflag,$(MAKECMDGOALS)))
 	CFLAGS	+=	-Wall -Wextra
 else
 	CFLAGS	+=	-Wall -Wextra -Werror
-endif
-ifeq (debug, $(filter debug,$(MAKECMDGOALS)))
-	CFLAGS	+=	-g3
-endif
-ifeq (sanadd, $(filter sanadd,$(MAKECMDGOALS)))
-	CFLAGS	+=	-fsanitize=address
-endif
-ifeq (santhread, $(filter santhread,$(MAKECMDGOALS)))
-	CFLAGS	+=	-fsanitize=thread
 endif
 
 ################################################################################
@@ -138,23 +96,12 @@ $(OBJS_PATH)/%.o:	$(SRCS_PATH)/%$(SRCS_EXTENSION)
 			@mkdir -p $(dir $@)
 			@echo "$(CYAN)Compiling $(BLUE)$@ ...$(NO_COLOR)"
 			@$(CC) $(CFLAGS) -MMD -MF $(@:.o=.d)  ${INCLUDE_FLAGS} -c $< -o $@
-
-$(LIBFT_COMPLETE):
-ifeq ($(IS_LIBFT),true)
-			@make -C $(LIBFT_DIR) all
-			@echo "$(GREEN)Compiled libft !$(NO_COLOR)"
-endif
-$(MLX_COMPLETE):
-ifeq ($(IS_MLX),true)
-			@make -C $(MLX_DIR) all
-			@echo "$(GREEN)Compiled MLX !$(NO_COLOR)"
-endif
 			
 #Link
--include $(OBJS_DEPEND) $(OBJ_MAIN_DEPEND)
-$(NAME):	${OBJS} ${ALL_LIBS}
+-include $(OBJS_DEPEND)
+$(NAME):	${OBJS}
 		@echo "$(ORANGE)Linking $(BLUE)$@ ...$(NO_COLOR)"
-		@cp libftprintf.a libunit.a
+		@cp libftprintf.a ${NAME}
 		@ar rcs ${NAME} ${OBJS}
 		@echo "$(GREEN)$@ created !$(NO_COLOR)"
 
@@ -167,17 +114,7 @@ fclean:		header clean
 		@rm -f $(NAME)
 		@echo "$(GREEN)Removed $(NAME) !$(NO_COLOR)"
 
-fcleanlib:	header fclean
-ifeq ($(IS_LIBFT),true)
-		make -C $(LIBFT_DIR) fclean
-endif
-ifeq ($(IS_MLX),true)
-		make -C $(MLX_DIR) fclean
-endif
-
 re:			header fclean all
-
-relib:		header fcleanlib all
 
 #test
 run:		header all
@@ -199,11 +136,5 @@ show:		header
 #do nothing
 noflag: 	all
 		@echo -n ""
-debug:		all
-		@echo -n ""
-sanadd:		all
-		@echo -n ""
-santhread:	all
-		@echo -n ""
 		
-.PHONY:		all header clean fclean re run fcleanlib relib noflag debug sanadd santhread show
+.PHONY:		all header clean fclean re run noflag show
