@@ -18,7 +18,7 @@ char	*segv()
 char *test1()
 {
 	t_stdout *ft_stdout = init_stdout_test();
-	write(1, "Salut\t", 5);
+	write(1, "Salut\t", 6);
 	end_stdout_test(ft_stdout);
 	return ft_stdout->output;
 }
