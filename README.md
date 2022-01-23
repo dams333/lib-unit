@@ -18,20 +18,19 @@ Compile the libunit with its Makefile and use the header (includes/libunit.h) in
 ## Example
 This is what your main could look like:
 ```c
+t_tester *tester = init_tester("Libft Tester");
 
-	t_tester *tester = init_tester("Libft Tester");
+t_tests_list *list1 = init_tests_list("ft_strlen");
+add_test(list1, "ok", &test_strlen_ok, &compare_strlen_ok);
+add_test(list1, "ko", &test_strlen_ko, &compare_strlen_ko);
+add_test_list(tester, list1);
 
-	t_tests_list *list1 = init_tests_list("ft_strlen");
-	add_test(list1, "ok", &test_strlen_ok, &compare_strlen_ok);
-	add_test(list1, "ko", &test_strlen_ko, &compare_strlen_ko);
-	add_test_list(tester, list1);
+t_tests_list *list2 = init_tests_list("ft_atoi");
+add_test(list2, "ok", &test_atoi_ok, &compare_atoi_ok);
+add_test(list2, "ko", &test_atoi_ko, &compare_atoi_ko);
+add_test_list(tester, list2);
 
-	t_tests_list *list2 = init_tests_list("ft_atoi");
-	add_test(list2, "ok", &test_atoi_ok, &compare_atoi_ok);
-	add_test(list2, "ko", &test_atoi_ko, &compare_atoi_ko);
-	add_test_list(tester, list2);
-
-	launch_test(tester);
+launch_test(tester);
 ```
 Le résultat d'un tel test ressemblera à cela:
 ```
