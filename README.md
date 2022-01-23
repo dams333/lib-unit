@@ -31,7 +31,7 @@ t_tester *tester = init_tester("Libft Tester");
 
 t_tests_list *list1 = init_tests_list("ft_strlen");
 add_test(list1, "ok", NULL &test_strlen_ok, &compare_strlen_ok);
-add_test(list1, "ko", "write(1, \"Salut\\n\", 5);" &test_strlen_ko, &compare_strlen_ko);
+add_test(list1, "ko", "ft_strlen(\"abcdefghiklm\")" &test_strlen_ko, &compare_strlen_ko);
 add_test_list(tester, list1);
 
 t_tests_list *list2 = init_tests_list("ft_atoi");
