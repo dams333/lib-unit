@@ -14,6 +14,7 @@ Compile the libunit with its Makefile and use the header (includes/libunit.h) in
   - The second function must return what is expected by the first one in order to compare them
   - _(If you want to check the return value and the modification of a variable, concatenate these 2 values in a string)_
   - The test is considered valid if the 2 strings are identical (the comparison is done with `strcmp`)
+- The field `code`, can be left at NULL. It will be displayed in the log file in case of KO to give information to the user about the part of his code that caused the error _(no multiple lines)_
 - When your test list is finished, add it to your test with `add_test_list`
 - You can now start your tester with `launch_test`
 ---

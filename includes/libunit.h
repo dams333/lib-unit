@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 16:29:45 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:43:06 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		ft_printf(int fd, const char *str, ...);
 
 typedef struct s_test
 {
-	char			*test_desc;
+	char			*test_name;
+	char			*test_code;
 	char			*(*test)(void);
 	char			*(*waited)(void);
 	struct s_test	*next_test;
@@ -73,7 +74,7 @@ t_tester		*init_tester(char *tester_name);
 void	add_test_list(t_tester *tester, t_tests_list *list);
 
 t_tests_list	*init_tests_list(char *list_name);
-void	add_test(t_tests_list *test_list, char *description, char *(*ft_test)(void), char *(*waited)(void));
+void	add_test(t_tests_list *test_list, char *name, char *code, char *(*ft_test)(void), char *(*waited)(void));
 
 void	launch_test(t_tester *tester);
 void	print_result(int wait_status, int *ok_test, t_test *test, int fd);
