@@ -7,7 +7,7 @@ This library **is not** the Libunit rush. But an improved version to write unit 
 # Documentation
 ## Compilation
 Compile the libunit with its Makefile and use the header (includes/libunit.h) in your tester code
-## Use
+## Usage
 ### General
 - First, initialize your tester with the `init_tester` function by specifying its name
 - Initialize a test list for each of the features you will test with the `init_tests_list`
