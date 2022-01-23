@@ -1,7 +1,7 @@
 # Introduction
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
-## Version
-The current version is relatively simple but new features will be added very soon
+## RoadMap
+Add norm checker, non protected malloc checker, leaks checker. Add tests for undefined behaviors and acceptable crash tests
 # Documentation
 ## Compilation
 Compile the libunit with its Makefile and use the header (includes/libunit.h) in your tester code
@@ -48,6 +48,27 @@ The result of such a test will look like this:
 
 ft_strlen: ✔ ✗
 ft_atoi:   ✔ ✗
+
+Global result: (2/4)
+```
+Associated with a log file like this:
+```
+     Libft Tester     
+----------------------
+
+ft_strlen:
+  > ok: OK
+  > ko: KO
+       EXCEPTED: [12]
+       OBTAINED: [1]
+	   Created by: [ft_strlen("abcdefghiklm")]
+
+ft_atoi:
+  > ok: OK
+  > ko: KO
+       EXCEPTED: [12]
+       OBTAINED: [1]
+
 
 Global result: (2/4)
 ```

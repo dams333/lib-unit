@@ -18,14 +18,14 @@ char	*segv()
 char *test1()
 {
 	t_stdout *ft_stdout = init_stdout_test();
-	write(1, "Salu", 6);
+	write(1, "Salut\t", 6);
 	end_stdout_test(ft_stdout);
 	return ft_stdout->output;
 }
 
 char *test2()
 {
-	return "Salut";
+	return "Salut\n";
 }
 
 int main()
@@ -35,7 +35,7 @@ int main()
 	t_tests_list *list1 = init_tests_list("ft_strlen");
 	add_test(list1, "ok", NULL, &ok, &ok);
 	add_test(list1, "ko", NULL, &ok, &ko);
-	add_test(list1, "stdout", "write(1, \"Salu\", 6);", &test1, &test2);
+	add_test(list1, "stdout", "write(1, \"Salut\\n\", 5);", &test1, &test2);
 	add_test_list(tester, list1);
 
 	t_tests_list *list2 = init_tests_list("ft_atoi");
