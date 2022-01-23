@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 12:44:55 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 13:30:27 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef	struct s_tester
 	t_tests_list *first_list;
 }	t_tester;
 
+typedef struct s_stdout
+{
+	char		*output;
+	int			*fd;
+	int			stdout;
+}				t_stdout;
+
 /*
  *	unit_test
  */
@@ -68,5 +75,8 @@ void	add_test(t_tests_list *test_list, char *description, char *(*ft_test)(void)
 
 void	launch_test(t_tester *tester);
 void	print_result(int wait_status, int *ok_test);
+
+t_stdout	*init_stdout_test();
+void	end_stdout_test(t_stdout *output);
 
 #endif

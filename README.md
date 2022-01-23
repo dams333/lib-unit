@@ -1,11 +1,12 @@
 # Introduction
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
 ## Version
-The current version is relatively simple but new features (reading the standard output, adding details on the tests performed, ...) will be added very soon
+The current version is relatively simple but new features will be added very soon
 # Documentation
 ## Compilation
 Compile the libunit with its Makefile and use the header (includes/libunit.h) in your tester code
 ## Use
+### General
 - First, initialize your tester with the `init_tester` function by specifying its name
 - Initialize a test list for each of the features you will test with the `init_tests_list`
 - To add a test to a list, use add_test. Give it the pointer to the list, the name of the test and 2 functions. These functions must return a string.
@@ -15,6 +16,13 @@ Compile the libunit with its Makefile and use the header (includes/libunit.h) in
   - The test is considered valid if the 2 strings are identical (the comparison is done with `strcmp`)
 - When your test list is finished, add it to your test with `add_test_list`
 - You can now start your tester with `launch_test`
+---
+### STDOUT test
+You can test what is written on STDOUT. For this:
+- In your test initialise a `t_stdout` with `init_stdout_test`.
+- Do what you want that writes on the STDOUT
+- Use `end_stdout_test` to finish reading
+- You can now retrieve what has been written using the `output` fields of your `t_stdout`.
 ## Example
 This is what your main could look like:
 ```c

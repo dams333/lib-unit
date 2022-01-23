@@ -6,7 +6,7 @@
 #    By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/08 10:05:58 by dhubleur          #+#    #+#              #
-#    Updated: 2022/01/23 12:41:09 by dhubleur         ###   ########.fr        #
+#    Updated: 2022/01/23 13:21:38 by dhubleur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS_EXTENSION	=	.c
 SRCS_PATH		=	./srcs
 SRCS			=	runner.c \
 					printer.c \
-					test_utils.c
+					test_utils.c \
+					stdout.c
 					
 ###########################################s#####################################
 #								  Includes									   #
