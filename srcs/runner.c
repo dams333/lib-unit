@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 12:47:11 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 14:26:32 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ static void	exec_child(t_test *test)
 	exit(-1);
 }
 
-static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test)
+static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t longest_name)
 {
 	int		wait_status;
 	pid_t	pid;
 
+	int space = longest_name - strlen(lst->list_name);
 	ft_printf("%s%s: %s", YELLOW, lst->list_name, RESET);
+	for(int i = 0; i < space; i++)
+		ft_printf(" ");
 
 	t_test *test = lst->first_test;
 	while (test != NULL)
@@ -67,9 +70,17 @@ void	launch_test(t_tester *tester)
 	int total_test = 0;
 	int	ok_test = 0;
 	t_tests_list *list = tester->first_list;
+	size_t longest = 0;
 	while(list != NULL)
 	{
-		exec_list(list, &total_test, &ok_test);
+		if(strlen(list->list_name) > longest)
+			longest = strlen(list->list_name);
+		list = list->next_tests;
+	}
+	list = tester->first_list;
+	while(list != NULL)
+	{
+		exec_list(list, &total_test, &ok_test, longest);
 		ft_printf("\n");
 		list = list->next_tests;
 	}
