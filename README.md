@@ -45,8 +45,8 @@ The result of such a test will look like this:
      Libft Tester     
 ----------------------
 
-ft_strlen: ✅ ❌
-ft_atoi:   ✅ ❌
+ft_strlen: ✔ ✗
+ft_atoi:   ✔ ✗
 
 Global result: (2/4)
 ```
