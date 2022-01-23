@@ -32,7 +32,7 @@ add_test_list(tester, list2);
 
 launch_test(tester);
 ```
-Le résultat d'un tel test ressemblera à cela:
+The result of such a test will look like this:
 ```
      Libft Tester     
 ----------------------
