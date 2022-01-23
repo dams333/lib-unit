@@ -26,7 +26,8 @@ You can test what is written on STDOUT. For this:
 - Do what you want that writes on the STDOUT
 - Use `end_stdout_test` to finish reading
 - You can now retrieve what has been written using the `output` fields of your `t_stdout`.
-## Example
+## Examples
+### Basic
 This is what your main could look like:
 ```c
 t_tester *tester = init_tester("Libft Tester");
@@ -73,4 +74,59 @@ ft_atoi:
 
 
 Global result: (2/4)
+```
+---
+### STDOUT Example
+This main:
+```c
+void ft_putendl(char *str)
+{
+	write(1, str, strlen(str));
+}
+
+char *test()
+{
+	t_stdout *ft_stdout = init_stdout_test();
+	ft_putendl("Salut");
+	end_stdout_test(ft_stdout);
+	return ft_stdout->output;
+}
+char *result()
+{
+	return "Salut\n";
+}
+
+int main()
+{
+	t_tester *tester = init_tester("STDOUT Tester");
+
+	t_tests_list *list1 = init_tests_list("STDOUT");
+	add_test(list1, "test ", "ft_putendl(\"Salut\")", &test, &result);
+	add_test_list(tester, list1);
+
+	launch_test(tester);
+}
+```
+Produce this output:
+```
+     STDOUT Tester     
+-----------------------
+
+STDOUT: ✗
+
+Global result: (0/1)
+```
+And this log file:
+```
+     STDOUT Tester     
+-----------------------
+
+STDOUT:
+  > test : KO
+       EXCEPTED: [Salut\n]
+       OBTAINED: [Salut]
+       Created by: [ft_putendl("Salut")]
+
+
+Global result: (0/1)
 ```
