@@ -1,0 +1,9 @@
+{
+	"files.associations": {
+		"libft.h": "c",
+		"stdio.h": "c",
+		"libunit.h": "c",
+		"isalpha.h": "c",
+		"ft_atoi.h": "c"
+	}
+}
