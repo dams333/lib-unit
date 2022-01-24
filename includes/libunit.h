@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 12:38:15 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 13:54:30 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <time.h>
 # include <fcntl.h>
 # include <string.h>
+# include <stdarg.h>
 
 # define TIMEOUT 10
 
@@ -49,7 +50,7 @@ typedef enum e_testtype
 typedef enum e_bool
 {
 	TRUE = 1,
-	FALSe = 0
+	FALSE = 0
 }	t_bool;
 
 typedef struct s_test

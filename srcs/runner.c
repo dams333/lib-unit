@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 18:01:11 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:21:41 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,36 @@ static void	exit_timeout(int signal)
 
 static void	exec_child(t_test *test)
 {
-	char		*(*ft_test)(void);
-	char		*(*ft_check)(void);
-
-	ft_test = test->test;
-	ft_check = test->waited;
 	signal(SIGALRM, &exit_timeout);
 	alarm(TIMEOUT);
-	if(strcmp(ft_test(), ft_check()) == 0)
-		exit(0);
+	if(test->type == INT_VALUE)
+	{
+		int (*fct)(void);
+		fct = test->test;
+		exit((fct() == *((int *)test->compare)) ? 0 : -1);
+	}
+	if(test->type == STR_VALUE)
+	{
+		char *(*fct)(void);
+		fct = test->test;
+		exit((strcmp(fct(), (char *)test->compare) == 0) ? 0 : -1);
+	}
+	if(test->type == INT_COMPARE)
+	{
+		int (*fct)(void);
+		fct = test->test;
+		int (*fct2)(void);
+		fct2 = test->compare;
+		exit((fct() == fct2()) ? 0 : -1);
+	}
+	if(test->type == STR_COMPARE)
+	{
+		char *(*fct)(void);
+		fct = test->test;
+		char *(*fct2)(void);
+		fct2 = test->compare;
+		exit((strcmp(fct(), fct2()) == 0) ? 0 : -1);
+	}
 	exit(-1);
 }
 

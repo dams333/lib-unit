@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:28:58 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 12:37:55 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:21:02 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_tester	*init_tester(char *tester_name)
 {	
 	t_tester	*tester;
 
-	tester = malloc(sizeof(tester));
+	tester = malloc(sizeof(t_tester));
 	tester->name = tester_name;
 	tester->first_list = NULL;
 	return (tester);
@@ -26,7 +26,7 @@ t_tests_list	*init_tests_list(char *list_name)
 {	
 	t_tests_list	*test_list;
 
-	test_list = malloc(sizeof(test_list));
+	test_list = malloc(sizeof(t_tests_list));
 	test_list->list_name = list_name;
 	test_list->first_test = NULL;
 	return (test_list);
@@ -42,6 +42,7 @@ static t_test	*create_test(char *name, char *code, t_bool accept_crash, t_testty
 	test_elem->test = test;
 	test_elem->compare = compare;
 	test_elem->accept_crash = accept_crash;
+	test_elem->type = type;
 	test_elem->next_test = NULL;
 	return (test_elem);
 }
@@ -54,28 +55,17 @@ void	add_test(t_tests_list *test_list, char *name, char *code, t_bool accept_cra
 
 	va_start(ap, test);
 	if(type == INT_COMPARE)
-	{
-		int	(**fct)(void) = malloc(sizeof(int(**)(void)));
-		*fct = va_arg(ap, int(**)(void));
-		compare = *fct;
-	}
+		compare = va_arg(ap, int(**)(void));
 	if(type == INT_COMPARE)
-	{
-		char	(***fct)(void) = malloc(sizeof(int(***)(void)));
-		*fct = va_arg(ap, char(***)(void));
-		compare = *fct;
-	}
-	if(type == INT_VALUE)
+		compare = va_arg(ap, char(***)(void));
+	if(type == STR_VALUE)
 	{
 		int	*i = malloc(sizeof(int));
 		*i = va_arg(ap, int);
+		compare = i;
 	}
-	if(type == STR_VALUE)
-	{
-		char *str = va_arg(ap, char*);
-		char *copy = strdup(str);
-		compare = copy;
-	}
+	if(type == STR_COMPARE)
+		compare = va_arg(ap, char*);;
 	va_end(ap);
 	if (test_list->first_test == NULL)
 		test_list->first_test = create_test(name, code, accept_crash, type, test, compare);

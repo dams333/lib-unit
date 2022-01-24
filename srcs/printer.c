@@ -6,11 +6,58 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 18:09:43 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:23:19 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libunit.h"
+
+static int	count_chars(int n)
+{
+	long int	nb;
+	int			chars;
+
+	nb = n;
+	chars = 1;
+	if (n < 0)
+	{
+		chars++;
+		nb *= -1;
+	}
+	while (nb >= 10)
+	{
+		nb /= 10;
+		chars++;
+	}
+	return (chars);
+}
+
+static char	*itoa(int n)
+{
+	long int	nb;
+	char		*str;
+	int			i;
+
+	str = malloc(sizeof(char) + (count_chars(n) + 1));
+	if (!str)
+		return (NULL);
+	str[count_chars(n)] = '\0';
+	i = count_chars(n) - 1;
+	nb = n;
+	if (n < 0)
+	{
+		str[0] = '-';
+		nb *= -1;
+	}
+	while (nb >= 10)
+	{
+		str[i] = (nb % 10) + '0';
+		nb /= 10;
+		i--;
+	}
+	str[i] = nb + '0';
+	return (str);
+}
 
 void	print_signal_error(int exit_code, t_test *test, int fd)
 {
@@ -67,8 +114,6 @@ char	*replace_chars(char *str)
 	{
 		if(str[i] == '\a' || str[i] == '\b' || str[i] == '\n' || str[i] == '\v' || str[i] == '\f' || str[i] == '\r' || str[i] == '\t')
 			count++;
-		else if(str[i] < ' ' || str[i] > '~')
-			str[i] = '.';
 	}
 	char *new_str = malloc(sizeof(char) * (strlen(str) + count));
 	int	new_i = 0;
@@ -109,6 +154,8 @@ char	*replace_chars(char *str)
 			new_str[new_i++] = '\\';
 			new_str[new_i] = 't';
 		}
+		else if(str[i] < ' ' || str[i] > '~')
+			new_str[i] = '.';
 		else
 			new_str[new_i] = str[i];
 		new_i++;
@@ -138,8 +185,40 @@ void	print_result(int wait_status, int *ok_test, t_test *test, int fd)
 		{
 			ft_printf(1, "%s✗%s ", RED, RESET);
 			ft_printf(fd, "  > %s: KO\n", test->test_name);
-			char *str1 = test->waited();
-			char *str2 = test->test();
+			char *str1;
+			char *str2;
+			if(test->type == INT_VALUE)
+			{
+				str1 = strdup(itoa(*((int *)test->compare)));
+				int (*fct)(void);
+				fct = test->test;
+				str2 = strdup(itoa(fct()));
+			}
+			if(test->type == STR_VALUE)
+			{
+				str1 = strdup(((char *)test->compare));
+				char *(*fct)(void);
+				fct = test->test;
+				str2 = strdup(fct());
+			}
+			if(test->type == INT_COMPARE)
+			{
+				int (*fct2)(void);
+				fct2 = test->compare;
+				str1 = strdup(itoa(fct2()));
+				int (*fct)(void);
+				fct = test->test;
+				str2 = strdup(itoa(fct()));
+			}
+			if(test->type == STR_COMPARE)
+			{
+				char *(*fct2)(void);
+				fct2 = test->compare;
+				str1 = strdup(fct2());
+				char *(*fct)(void);
+				fct = test->test;
+				str2 = strdup(fct());
+			}
 			ft_printf(fd, "       EXCEPTED: [%s]\n", replace_chars(str1));
 			ft_printf(fd, "       OBTAINED: [%s]\n", replace_chars(str2));
 			if(test->test_code != NULL)
