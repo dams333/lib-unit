@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:28:58 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 11:49:54 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:42:42 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,31 @@ t_tests_list	*init_tests_list(char *list_name)
 	return (test_list);
 }
 
-static t_test	*create_test(char *description, char *(*ft_test)(void), char *(*waited)(void))
+static t_test	*create_test(char *name, char *code, char *(*ft_test)(void), char *(*waited)(void))
 {
 	t_test	*test_elem;
 
 	test_elem = malloc(sizeof(t_test));
-	test_elem->test_desc = description;
+	test_elem->test_name = name;
+	test_elem->test_code = code;
 	test_elem->test = ft_test;
 	test_elem->waited = waited;
 	test_elem->next_test = NULL;
 	return (test_elem);
 }
 
-void	add_test(t_tests_list *test_list, char *description, char *(*ft_test)(void), char *(*waited)(void))
+void	add_test(t_tests_list *test_list, char *name, char *code, char *(*ft_test)(void), char *(*waited)(void))
 {
 	t_test	*elem;
 
 	if (test_list->first_test == NULL)
-		test_list->first_test = create_test(description, ft_test, waited);
+		test_list->first_test = create_test(name, code, ft_test, waited);
 	else
 	{
 		elem = test_list->first_test;
 		while (elem->next_test != NULL)
 			elem = elem->next_test;
-		elem->next_test = create_test(description, ft_test, waited);
+		elem->next_test = create_test(name, code, ft_test, waited);
 	}
 }
 

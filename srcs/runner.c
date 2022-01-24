@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/23 14:26:32 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:01:11 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ static void	exec_child(t_test *test)
 	exit(-1);
 }
 
-static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t longest_name)
+static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t longest_name, int fd)
 {
 	int		wait_status;
 	pid_t	pid;
 
 	int space = longest_name - strlen(lst->list_name);
-	ft_printf("%s%s: %s", YELLOW, lst->list_name, RESET);
+	ft_printf(1, "%s%s: %s", YELLOW, lst->list_name, RESET);
+	ft_printf(fd, "%s:\n", lst->list_name);
 	for(int i = 0; i < space; i++)
-		ft_printf(" ");
+		ft_printf(1, " ");
 
 	t_test *test = lst->first_test;
 	while (test != NULL)
@@ -51,7 +52,7 @@ static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t l
 		else
 		{	
 			wait(&wait_status);
-			print_result(wait_status, ok_test);
+			print_result(wait_status, ok_test, test, fd);
 			(*total_test)++;
 		}
 		test = test->next_test;
@@ -60,12 +61,36 @@ static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t l
 
 void	launch_test(t_tester *tester)
 {
-	ft_printf("%s     %s     %s\n", BLUE, tester->name, RESET);
+	time_t t;
+    time(&t);
+	char *name = malloc(200);
+	name[0] = '\0';
+	strcat(name, tester->name);
+	strcat(name, "_");
+	strcat(name, ctime(&t));
+	for(int i = 0; name[i]; i++)
+	{
+		if(name[i] == ' ')
+			name[i] = '_';
+		if(name[i] == ':')
+			name[i] = '_';
+		if(name[i] == '\n')
+			name[i] = '\0';
+	}
+	strcat(name, ".log");
+	int fd = open(name, O_WRONLY | O_CREAT);
+	print_header();
+	ft_printf(1, "%s     %s     %s\n", BLUE, tester->name, RESET);
+	ft_printf(fd, "     %s     \n", tester->name);
 	int space = strlen(tester->name) + 10;
-	ft_printf("%s", BLUE);
+	ft_printf(1, "%s", BLUE);
 	for(int i = 0; i < space; i++)
-		ft_printf("-");
-	ft_printf("%s\n\n", RESET);
+	{
+		ft_printf(1, "-");
+		ft_printf(fd, "-");
+	}
+	ft_printf(1, "%s\n\n", RESET);
+	ft_printf(fd, "\n\n");
 
 	int total_test = 0;
 	int	ok_test = 0;
@@ -80,9 +105,12 @@ void	launch_test(t_tester *tester)
 	list = tester->first_list;
 	while(list != NULL)
 	{
-		exec_list(list, &total_test, &ok_test, longest);
-		ft_printf("\n");
+		exec_list(list, &total_test, &ok_test, longest, fd);
+		ft_printf(1, "\n");
+		ft_printf(fd, "\n");
 		list = list->next_tests;
 	}
-	ft_printf("\n%sGlobal result: %s(%i/%i)%s\n", CYAN, (total_test == ok_test) ? GREEN : RED, ok_test, total_test, RESET);
+	ft_printf(1, "\n%sGlobal result: %s(%i/%i)%s\n", CYAN, (total_test == ok_test) ? GREEN : RED, ok_test, total_test, RESET);
+	ft_printf(fd, "\nGlobal result: (%i/%i)", ok_test, total_test);
+	close(fd);
 }
