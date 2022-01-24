@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:28:58 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 14:21:02 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:31:53 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ void	add_test(t_tests_list *test_list, char *name, char *code, t_bool accept_cra
 	va_start(ap, test);
 	if(type == INT_COMPARE)
 		compare = va_arg(ap, int(**)(void));
-	if(type == INT_COMPARE)
+	if(type == STR_COMPARE)
 		compare = va_arg(ap, char(***)(void));
-	if(type == STR_VALUE)
+	if(type == INT_VALUE)
 	{
 		int	*i = malloc(sizeof(int));
 		*i = va_arg(ap, int);
 		compare = i;
 	}
-	if(type == STR_COMPARE)
+	if(type == STR_VALUE)
 		compare = va_arg(ap, char*);;
 	va_end(ap);
 	if (test_list->first_test == NULL)
