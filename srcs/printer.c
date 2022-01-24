@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 15:56:23 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 16:10:20 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,6 @@ void	print_header()
 	ft_printf(1, " | |    | | '_ \\| |  | | '_ \\| | __|\n");
 	ft_printf(1, " | |____| | |_) | |__| | | | | | |_ \n");
 	ft_printf(1, " |______|_|_.__/ \\____/|_| |_|_|\\__|\n");
-	ft_printf(1, "                          by dhubleur\n");
+	ft_printf(1, "       (github.com/dams333/lib-unit)\n");
 	ft_printf(1, "\n%s", RESET);
 }
