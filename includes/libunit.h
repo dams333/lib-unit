@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 09:15:41 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:38:15 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <time.h>
 # include <fcntl.h>
+# include <string.h>
 
 # define TIMEOUT 10
 
@@ -38,14 +39,27 @@ int		ft_printf(int fd, const char *str, ...);
  * 	Structur
  */
 
-
+typedef enum e_testtype
+{
+	INT_VALUE,
+	STR_VALUE,
+	INT_COMPARE,
+	STR_COMPARE
+}	t_testtype;
+typedef enum e_bool
+{
+	TRUE = 1,
+	FALSe = 0
+}	t_bool;
 
 typedef struct s_test
 {
 	char			*test_name;
 	char			*test_code;
-	char			*(*test)(void);
-	char			*(*waited)(void);
+	t_testtype		type;
+	void			*test;
+	void			*compare;
+	t_bool			accept_crash;
 	struct s_test	*next_test;
 }	t_test;
 
@@ -76,7 +90,7 @@ t_tester		*init_tester(char *tester_name);
 void	add_test_list(t_tester *tester, t_tests_list *list);
 
 t_tests_list	*init_tests_list(char *list_name);
-void	add_test(t_tests_list *test_list, char *name, char *code, char *(*ft_test)(void), char *(*waited)(void));
+void	add_test(t_tests_list *test_list, char *name, char *code, t_bool accept_crash, t_testtype type, void *test, ...);
 
 void	launch_test(t_tester *tester);
 void	print_result(int wait_status, int *ok_test, t_test *test, int fd);
