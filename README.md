@@ -66,7 +66,7 @@ The result of such a test will look like this:
 ----------------------
 
 ft_strlen: ✔ ✗
-ft_atoi:   ✔ ✗
+ft_itoa:   ✔ ✗
 
 Global result: (2/4)
 ```
