@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 14:53:25 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 15:06:51 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char *get_log_name(t_tester *tester)
 
 void	launch_test(t_tester *tester)
 {
-	int fd = open(get_log_name(tester), O_WRONLY | O_CREAT);
+	int fd = open(get_log_name(tester), O_WRONLY | O_CREAT, 0777);
 	print_header();
 	ft_printf(1, "%s     %s     %s\n", BLUE, tester->name, RESET);
 	ft_printf(fd, "     %s     \n", tester->name);
