@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 14:23:19 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:42:19 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	print_signal_error(int exit_code, t_test *test, int fd)
 {
 	int	sig_code;
 
-	ft_printf(1, "%s", RED);
+	if(!test->accept_crash)
+		ft_printf(1, "%s", RED);
+	else
+		ft_printf(1, "%s", YELLOW);
 	ft_printf(fd, "  > %s: ", test->test_name);
 	sig_code = WTERMSIG(exit_code);
 	if (sig_code == SIGBUS)
@@ -101,6 +104,8 @@ void	print_signal_error(int exit_code, t_test *test, int fd)
 		ft_printf(1, "[SIGNAL]");
 		ft_printf(fd, "[SIGNAL]");
 	}
+	if(test->accept_crash)
+		ft_printf(fd, " (acceptable)");
 	ft_printf(1, "%s ", RESET);
 	if(test->test_code != NULL)
 				ft_printf(fd, "       Created by: [%s]\n", test->test_code);
@@ -228,6 +233,8 @@ void	print_result(int wait_status, int *ok_test, t_test *test, int fd)
 	else
 	{
 		print_signal_error(wait_status, test, fd);
+		if(test->accept_crash)
+			(*ok_test)++;
 	}
 }
 

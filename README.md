@@ -1,10 +1,12 @@
 # Table of content
+- [Table of content](#table-of-content)
 - [Introduction](#introduction)
 	- [RoadMap](#roadmap)
 - [Documentation](#documentation)
 	- [Compilation](#compilation)
 	- [Usage](#usage)
 		- [General](#general)
+	- [- You can now start your tester with `launch_test`](#--you-can-now-start-your-tester-with-launch_test)
 		- [STDOUT test](#stdout-test)
 - [Examples](#examples)
 	- [Basic](#basic)
@@ -23,12 +25,14 @@ Compile the libunit with its Makefile and use the header (includes/libunit.h) in
 ### General
 - First, initialize your tester with the `init_tester` function by specifying its name
 - Initialize a test list for each of the features you will test with the `init_tests_list`
-- To add a test to a list, use add_test. Give it the pointer to the list, the name of the test and 2 functions. These functions must return a string.
-  - The first function is your test itself.
-  - The second function must return what is expected by the first one in order to compare them
-  - _(If you want to check the return value and the modification of a variable, concatenate these 2 values in a string)_
-  - The test is considered valid if the 2 strings are identical (the comparison is done with `strcmp`)
-- The field `code`, can be left at NULL. It will be displayed in the log file in case of KO to give information to the user about the part of his code that caused the error _(no multiple lines)_
+- To add a test to a list, use add_test. Give it:
+  - The list pointer
+  - The name of the test
+  - The line (no \n please) of code that will be print in the log file to help the user
+  - Is a crash acceptable
+  - The type of the test
+  - The test function
+  - The compare function or value (depending of the test type)
 - When your test list is finished, add it to your test with `add_test_list`
 - You can now start your tester with `launch_test`
 ---
