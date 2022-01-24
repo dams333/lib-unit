@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 14:42:19 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 15:56:23 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ void	print_signal_error(int exit_code, t_test *test, int fd)
 	if(test->accept_crash)
 		ft_printf(fd, " (acceptable)");
 	ft_printf(1, "%s ", RESET);
+	ft_printf(fd, "\n");
 	if(test->test_code != NULL)
 				ft_printf(fd, "       Created by: [%s]\n", test->test_code);
-	ft_printf(fd, "\n");
 }
 
 char	*replace_chars(char *str)

@@ -10,6 +10,7 @@
 - [Examples](#examples)
 	- [Basic](#basic)
 	- [STDOUT](#stdout)
+	- [More tests](#more-tests)
 ---
 # Introduction
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
@@ -142,3 +143,5 @@ STDOUT:
 
 Global result: (0/1)
 ```
+## More tests
+You can find a main.c file that tests all the cases taken into account by the lib (compile it with `gcc main.c libunit.a`)

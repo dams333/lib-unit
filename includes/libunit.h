@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 13:54:30 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 15:58:49 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <stdarg.h>
 
-# define TIMEOUT 10
+# define TIMEOUT 1
 
 # define RED "\033[31m" 
 # define GREEN "\033[32m" 
