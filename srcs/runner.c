@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 14:21:41 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:53:25 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	exec_list(t_tests_list *lst, int *total_test, int *ok_test, size_t l
 	}
 }
 
-void	launch_test(t_tester *tester)
+char *get_log_name(t_tester *tester)
 {
 	time_t t;
     time(&t);
@@ -99,7 +99,12 @@ void	launch_test(t_tester *tester)
 			name[i] = '\0';
 	}
 	strcat(name, ".log");
-	int fd = open(name, O_WRONLY | O_CREAT);
+	return (name);
+}
+
+void	launch_test(t_tester *tester)
+{
+	int fd = open(get_log_name(tester), O_WRONLY | O_CREAT);
 	print_header();
 	ft_printf(1, "%s     %s     %s\n", BLUE, tester->name, RESET);
 	ft_printf(fd, "     %s     \n", tester->name);
