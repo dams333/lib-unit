@@ -6,7 +6,6 @@
 	- [Compilation](#compilation)
 	- [Usage](#usage)
 		- [General](#general)
-	- [- You can now start your tester with `launch_test`](#--you-can-now-start-your-tester-with-launch_test)
 		- [STDOUT test](#stdout-test)
 - [Examples](#examples)
 	- [Basic](#basic)
