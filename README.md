@@ -14,9 +14,9 @@
 # Introduction
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
 ## RoadMap
-- Add norm checker, non protected malloc checker, leaks checker.
-- Add the possibility to create tests for undefined behaviors and for acceptable crash.
-- Add int test comparison or multiple test comparison
+- Norm checker
+- Non protected malloc checker
+- Leaks checker
 # Documentation
 ## Compilation
 Compile the libunit with its Makefile and use the header (includes/libunit.h) in your tester code
