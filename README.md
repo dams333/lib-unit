@@ -53,9 +53,9 @@ add_test(list1, "ok", NULL, FALSE, INT_VALUE, &test_strlen, 2);
 add_test(list1, "ko", "ft_strlen(\"abcdefghiklm\")", FALSE, INT_COMPARE, &test_strlen_ko, &compare_strlen_ko);
 add_test_list(tester, list1);
 
-t_tests_list *list2 = init_tests_list("ft_atoi");
-add_test(list2, "ok", NULL, FALSE, STR_COMPARE, &test_atoi_ok, &compare_atoi_ok);
-add_test(list2, "ko", NULL, FALSE, STR_VALUE, &test_atoi_ko, "test");
+t_tests_list *list2 = init_tests_list("ft_itoa");
+add_test(list2, "ok", NULL, FALSE, STR_COMPARE, &test_itoa_ok, &compare_itoa_ok);
+add_test(list2, "ko", NULL, FALSE, STR_VALUE, &test_itoa_ko, "12");
 add_test_list(tester, list2);
 
 launch_test(tester);
@@ -82,11 +82,11 @@ ft_strlen:
        OBTAINED: [1]
 	   Created by: [ft_strlen("abcdefghiklm")]
 
-ft_atoi:
+ft_itoa:
   > ok: OK
   > ko: KO
        EXCEPTED: [12]
-       OBTAINED: [1]
+       OBTAINED: [12\n]
 
 
 Global result: (2/4)
