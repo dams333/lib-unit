@@ -49,13 +49,13 @@ This is what your main could look like:
 t_tester *tester = init_tester("Libft Tester");
 
 t_tests_list *list1 = init_tests_list("ft_strlen");
-add_test(list1, "ok", NULL &test_strlen_ok, &compare_strlen_ok);
-add_test(list1, "ko", "ft_strlen(\"abcdefghiklm\")" &test_strlen_ko, &compare_strlen_ko);
+add_test(list1, "ok", NULL, FALSE, INT_VALUE &test_strlen, 2);
+add_test(list1, "ko", "ft_strlen(\"abcdefghiklm\")", FALSE, INT_COMPARE &test_strlen_ko, &compare_strlen_ko);
 add_test_list(tester, list1);
 
 t_tests_list *list2 = init_tests_list("ft_atoi");
-add_test(list2, "ok", NULL &test_atoi_ok, &compare_atoi_ok);
-add_test(list2, "ko", NULL &test_atoi_ko, &compare_atoi_ko);
+add_test(list2, "ok", NULL, FALSE, STR_COMPARE &test_atoi_ok, &compare_atoi_ok);
+add_test(list2, "ko", NULL, FALSE, STR_VALUE &test_atoi_ko, "test");
 add_test_list(tester, list2);
 
 launch_test(tester);
@@ -108,17 +108,13 @@ char *test()
 	end_stdout_test(ft_stdout);
 	return ft_stdout->output;
 }
-char *result()
-{
-	return "Salut\n";
-}
 
 int main()
 {
 	t_tester *tester = init_tester("STDOUT Tester");
 
 	t_tests_list *list1 = init_tests_list("STDOUT");
-	add_test(list1, "test ", "ft_putendl(\"Salut\")", &test, &result);
+	add_test(list1, "test ", "ft_putendl(\"Salut\")", FALSE, STR_VALUE, &test, "Salut\n");
 	add_test_list(tester, list1);
 
 	launch_test(tester);
