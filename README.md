@@ -144,4 +144,4 @@ STDOUT:
 Global result: (0/1)
 ```
 ## More tests
-You can find a main.c file that tests all the cases acepted by the lib (compile it with `gcc main.c libunit.a`)
+You can find a main.c file that tests all the cases acepted by the lib. Yes, that's a tester for a tester, testerception (compile it with `gcc main.c libunit.a`)
