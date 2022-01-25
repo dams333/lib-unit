@@ -11,6 +11,7 @@
 - [Examples](#examples)
 	- [Basic](#basic)
 	- [STDOUT](#stdout)
+	- [malloc](#malloc)
 	- [More examples](#more-examples)
 ---
 # Introduction
