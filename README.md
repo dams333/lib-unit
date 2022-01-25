@@ -42,6 +42,7 @@ You can test what is written on STDOUT. For this:
 - Do what you want that writes on the STDOUT
 - Use `end_stdout_test` to finish reading
 - You can now retrieve what has been written using the `output` fields of your `t_stdout`.
+- Special thanks to y3ll0w42 and his `https://github.com/y3ll0w42/libunit` for his strategy to catch the stdout
 ---
 ### Malloc test
 - To test malloc, first use `start_malloc_catcher` in your test (use it after any malloc only used for the test)
