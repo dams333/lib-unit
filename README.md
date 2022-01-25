@@ -10,7 +10,7 @@
 - [Examples](#examples)
 	- [Basic](#basic)
 	- [STDOUT](#stdout)
-	- [More tests](#more-tests)
+	- [More examples](#more-examples)
 ---
 # Introduction
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
@@ -143,5 +143,5 @@ STDOUT:
 
 Global result: (0/1)
 ```
-## More tests
+## More examples
 You can find a main.c file that tests all the cases acepted by the lib. Yes, that's a tester for a tester, testerception (compile it with `gcc main.c libunit.a`)

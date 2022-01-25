@@ -49,6 +49,14 @@ int	timeout()
 		;
 }
 
+char *test_stdout()
+{
+	t_stdout *stdout = init_stdout_test();
+	write(1, "Salut\n", 6);
+	end_stdout_test(stdout);
+	return stdout->output;
+}
+
 int main()
 {
 	t_tester *tester = init_tester("LibUnit Tester");
@@ -87,6 +95,11 @@ int main()
 	add_test(list5, "not acceptable", NULL, FALSE, INT_VALUE, &sig1, 5);
 	add_test(list5, "acceptable", NULL, TRUE, INT_VALUE, &sig1, 5);
 	add_test_list(tester, list5);
+
+	t_tests_list *list6 = init_tests_list("Stdout");
+	add_test(list6, "ok", NULL, FALSE, STR_VALUE, &test_stdout, "Salut\n");
+	add_test(list6, "ko", NULL, FALSE, STR_VALUE, &test_stdout, "Salut");
+	add_test_list(tester, list6);
 
 	launch_test(tester);
 }
