@@ -18,8 +18,6 @@
 This library **is not** the Libunit rush. But an improved version to write unit tests simply.
 ## RoadMap
 - Norm checker
-- Non protected malloc checker
-- Leaks checker
 # Documentation
 ## Compilation
 Compile the libunit with its Makefile and use the header (includes/libunit.h) in your tester code
@@ -46,10 +44,11 @@ You can test what is written on STDOUT. For this:
 - You can now retrieve what has been written using the `output` fields of your `t_stdout`.
 ---
 ### Malloc test
-- To test malloc, first use `start_malloc_catcher` in tour test (use it after any malloc only used for the test)
+- To test malloc, first use `start_malloc_catcher` in your test (use it after any malloc only used for the test)
 - To stop testing malloc, use `stop_malloc_catcher_and_print_leaks`. That will print leaks summary in log file
 - To check non protected malloc, call `start_malloc_breaker` just after the `start_malloc_catcher` and stop it with `stop_malloc_breaker` just before the `stop_malloc_catcher_and_print_leaks`
 - If the test crash with `malloc breaker` ans the same test doesn't crash without. That's you have a non protected malloc
+- You can use  `stop_malloc_catcher` to stop checking the malloc without checking the leaks
 # Examples
 ## Basic
 This is what your main could look like:
