@@ -7,6 +7,7 @@
 	- [Usage](#usage)
 		- [General](#general)
 		- [STDOUT test](#stdout-test)
+		- [Malloc test](#malloc-test)
 - [Examples](#examples)
 	- [Basic](#basic)
 	- [STDOUT](#stdout)
@@ -42,6 +43,12 @@ You can test what is written on STDOUT. For this:
 - Do what you want that writes on the STDOUT
 - Use `end_stdout_test` to finish reading
 - You can now retrieve what has been written using the `output` fields of your `t_stdout`.
+---
+### Malloc test
+- To test malloc, first use `start_malloc_catcher` in tour test (use it after any malloc only used for the test)
+- To stop testing malloc, use `stop_malloc_catcher_and_print_leaks`. That will print leaks summary in log file
+- To check non protected malloc, call `start_malloc_breaker` just after the `start_malloc_catcher` and stop it with `stop_malloc_breaker` just before the `stop_malloc_catcher_and_print_leaks`
+- If the test crash with `malloc breaker` ans the same test doesn't crash without. That's you have a non protected malloc
 # Examples
 ## Basic
 This is what your main could look like:
@@ -142,6 +149,23 @@ STDOUT:
 
 
 Global result: (0/1)
+```
+## Malloc
+A test like that gonna crash becaus the malloc is not protected
+```c
+start_malloc_catcher();
+start_malloc_breaker();
+char *str = malloc(10);
+str[0] = 'c';
+stop_malloc_breaker();
+stop_malloc_catcher_and_print_leaks();
+```
+A test like that gonna print a leaks summary in the log because the result `str` is not free (`test_var` doesn't appear in log file because it's malloced before the `start_malloc_catcher`)
+```c
+char *test_var = malloc(10);
+start_malloc_catcher();
+char *str = malloc(10);
+stop_malloc_catcher_and_print_leaks();
 ```
 ## More examples
 You can find a main.c file that tests all the cases acepted by the lib. Yes, that's a tester for a tester, testerception (compile it with `gcc main.c libunit.a`)
