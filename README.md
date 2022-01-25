@@ -49,6 +49,7 @@ You can test what is written on STDOUT. For this:
 - To check non protected malloc, call `start_malloc_breaker` just after the `start_malloc_catcher` and stop it with `stop_malloc_breaker` just before the `stop_malloc_catcher_and_print_leaks`
 - If the test crash with `malloc breaker` ans the same test doesn't crash without. That's you have a non protected malloc
 - You can use  `stop_malloc_catcher` to stop checking the malloc without checking the leaks
+- To use malloc tests, you need to compile the executable with `-ldl -rdynamic`
 # Examples
 ## Basic
 This is what your main could look like:
@@ -168,4 +169,4 @@ char *str = malloc(10);
 stop_malloc_catcher_and_print_leaks();
 ```
 ## More examples
-You can find a main.c file that tests all the cases acepted by the lib. Yes, that's a tester for a tester, testerception (compile it with `gcc main.c libunit.a`)
+You can find a main.c file that tests all the cases acepted by the lib. Yes, that's a tester for a tester, testerception (compile it with `gcc main.c libunit.a -ldl -rdynamic`)
