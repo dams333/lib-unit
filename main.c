@@ -86,9 +86,9 @@ int main()
 	add_test_list(tester, list3);
 
 	t_tests_list *list4 = init_tests_list("Code precision tests");
-	add_test(list4, "with ok", "this_goona_help_you(3)", FALSE, INT_VALUE, &return_int_5, 5);
-	add_test(list4, "with ko", "this_goona_help_you(3)", FALSE, INT_VALUE, &return_int_5, 7);
-	add_test(list4, "with signal", "this_goona_help_you(3)", FALSE, INT_VALUE, &sig2, 7);
+	add_test(list4, "with ok", "this_gonna_help_you(3)", FALSE, INT_VALUE, &return_int_5, 5);
+	add_test(list4, "with ko", "this_gonna_help_you(3)", FALSE, INT_VALUE, &return_int_5, 7);
+	add_test(list4, "with signal", "this_gonna_help_you(3)", FALSE, INT_VALUE, &sig2, 7);
 	add_test_list(tester, list4);
 
 	t_tests_list *list5 = init_tests_list("Acceptable crash tests");
