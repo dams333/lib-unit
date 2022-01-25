@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 11:44:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 15:06:51 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:15:15 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,24 @@ static void	exit_timeout(int signal)
 	exit(SIGALRM);
 }
 
+int	g_leaks = 0;
+
 static void	exec_child(t_test *test)
 {
+	g_leaks = 0;
 	signal(SIGALRM, &exit_timeout);
 	alarm(TIMEOUT);
 	if(test->type == INT_VALUE)
 	{
 		int (*fct)(void);
 		fct = test->test;
-		exit((fct() == *((int *)test->compare)) ? 0 : -1);
+		exit((fct() == *((int *)test->compare)) ? (g_leaks ? 5 : 0) : -1);
 	}
 	if(test->type == STR_VALUE)
 	{
 		char *(*fct)(void);
 		fct = test->test;
-		exit((strcmp(fct(), (char *)test->compare) == 0) ? 0 : -1);
+		exit((strcmp(fct(), (char *)test->compare) == 0) ? (g_leaks ? 5 : 0) : -1);
 	}
 	if(test->type == INT_COMPARE)
 	{
@@ -40,7 +43,7 @@ static void	exec_child(t_test *test)
 		fct = test->test;
 		int (*fct2)(void);
 		fct2 = test->compare;
-		exit((fct() == fct2()) ? 0 : -1);
+		exit((fct() == fct2()) ? (g_leaks ? 5 : 0) : -1);
 	}
 	if(test->type == STR_COMPARE)
 	{
@@ -48,7 +51,7 @@ static void	exec_child(t_test *test)
 		fct = test->test;
 		char *(*fct2)(void);
 		fct2 = test->compare;
-		exit((strcmp(fct(), fct2()) == 0) ? 0 : -1);
+		exit((strcmp(fct(), fct2()) == 0) ? (g_leaks ? 5 : 0) : -1);
 	}
 	exit(-1);
 }
@@ -102,9 +105,13 @@ char *get_log_name(t_tester *tester)
 	return (name);
 }
 
+int	g_print_leaks;
+
 void	launch_test(t_tester *tester)
 {
+	g_print_leaks = 1;
 	int fd = open(get_log_name(tester), O_WRONLY | O_CREAT, 0777);
+	g_log_fd = fd;
 	print_header();
 	ft_printf(1, "%s     %s     %s\n", BLUE, tester->name, RESET);
 	ft_printf(fd, "     %s     \n", tester->name);

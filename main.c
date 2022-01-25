@@ -57,6 +57,33 @@ char *test_stdout()
 	return stdout->output;
 }
 
+int	test_malloc()
+{
+	start_malloc_catcher();
+	start_malloc_breaker();
+	char *str = malloc(10);
+	str[0] = 'c';
+	stop_malloc_breaker();
+	stop_malloc_catcher_and_print_leaks();
+	return 2;
+}
+
+int	test_malloc2()
+{
+	start_malloc_catcher();
+	char *str = malloc(10);
+	stop_malloc_catcher_and_print_leaks();
+	return 2;
+}
+
+int	test_malloc3()
+{
+	start_malloc_catcher();
+	free(malloc(10));
+	stop_malloc_catcher_and_print_leaks();
+	return 2;
+}
+
 int main()
 {
 	t_tester *tester = init_tester("LibUnit Tester");
@@ -100,6 +127,14 @@ int main()
 	add_test(list6, "ok", NULL, FALSE, STR_VALUE, &test_stdout, "Salut\n");
 	add_test(list6, "ko", NULL, FALSE, STR_VALUE, &test_stdout, "Salut");
 	add_test_list(tester, list6);
+
+	t_tests_list *list7 = init_tests_list("Malloc");
+	add_test(list7, "non protected", NULL, FALSE, INT_VALUE, &test_malloc, 1);
+	add_test(list7, "leak ko", NULL, FALSE, INT_VALUE, &test_malloc2, 1);
+	add_test(list7, "leak ok", NULL, FALSE, INT_VALUE, &test_malloc2, 2);
+	add_test(list7, "no leak ko", NULL, FALSE, INT_VALUE, &test_malloc3, 1);
+	add_test(list7, "no leak ok", NULL, FALSE, INT_VALUE, &test_malloc3, 2);
+	add_test_list(tester, list7);
 
 	launch_test(tester);
 }

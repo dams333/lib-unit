@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 14:43:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 16:10:20 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:17:58 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,17 @@ void	print_result(int wait_status, int *ok_test, t_test *test, int fd)
 			if(test->test_code != NULL)
 				ft_printf(fd, "       Created by: [%s]\n", test->test_code);
 		}
+		else if (WEXITSTATUS(wait_status) == 5)
+		{
+			ft_printf(1, "%s[LEAKS]%s ", YELLOW, RESET);
+			ft_printf(fd, "  > %s: OK\n", test->test_name);
+			if(test->test_code != NULL)
+				ft_printf(fd, "       Created by: [%s]\n", test->test_code);
+			(*ok_test)++;
+		}
 		else
 		{
+			g_print_leaks = 0;
 			ft_printf(1, "%s✗%s ", RED, RESET);
 			ft_printf(fd, "  > %s: KO\n", test->test_name);
 			char *str1;
@@ -228,6 +237,7 @@ void	print_result(int wait_status, int *ok_test, t_test *test, int fd)
 			ft_printf(fd, "       OBTAINED: [%s]\n", replace_chars(str2));
 			if(test->test_code != NULL)
 				ft_printf(fd, "       Created by: [%s]\n", test->test_code);
+			g_print_leaks = 1;
 		}
 	}
 	else

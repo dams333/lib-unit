@@ -6,11 +6,13 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 14:51:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/25 14:55:12 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:14:59 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libunit.h"
+
+int	g_log_fd;
 
 char const *get_func_name(void *addr)
 {
@@ -36,10 +38,7 @@ void get_backtrace(void *trace[])
 	}
 
 	if (i == size)
-	{
-		ft_printf(1, "can't find main in backtrace, did you not setup -rdynamic flag ?\n");
 		exit(EXIT_FAILURE);
-	}
 	size_t main_pos = size - i - 1;
 
 	size_t y = 0;
@@ -50,14 +49,19 @@ void get_backtrace(void *trace[])
 
 void	print_trace(void *trace[])
 {
+	int first = 1;
 	for(int i = 0; trace[i]; i++)
 	{
-		if(i == 0)
-			ft_printf(1, "%s", get_func_name(trace[i]));
-		else
-			ft_printf(1, " <-- %s", get_func_name(trace[i]));
+		if(strcmp(get_func_name(trace[i]), "<static_function>") != 0)
+		{
+			if(first)
+				ft_printf(g_log_fd, "%s", get_func_name(trace[i]));
+			else
+				ft_printf(g_log_fd, " <-- %s", get_func_name(trace[i]));
+			first = 0;
+		}
 	}
-	ft_printf(1, "\n");
+	ft_printf(g_log_fd, "\n");
 }
 
 int	count_no_free()
@@ -78,43 +82,32 @@ int	count_no_free()
 void	print_leak_summary()
 {
 	int leaks = count_no_free();
-	ft_printf(1, "===== Leaks Summary =====\n");
-	if(leaks == 0)
-		ft_printf(1, "No Leaks !\n");
-	else
+	if(leaks != 0 && g_print_leaks)
 	{
+		ft_printf(g_log_fd, "\n  ===== Leaks Summary =====\n");
 		t_alloc_list *elem = alloc_list;
 		while(elem != NULL)
 		{
 			if(elem->ptr != NULL)
 			{
-				ft_printf(1, "Leak from: ");
+				ft_printf(g_log_fd, "    Leak from: ");
 				print_trace(elem->backtrace);
 			}
 			elem = elem->next;
 		}
+		g_leaks = 1;
 	}
-}
-
-void	sig_handler(int signum)
-{
-	g_malloc_hook_active = 0;
-	g_malloc_crash_active = 0;
-	ft_printf(1, "Crash detected, probably your malloc are not protected !\n");
-	signal(signum, SIG_DFL);
-    kill(getpid(), signum);
+	alloc_list = NULL;
 }
 
 void	start_malloc_catcher()
 {
 	g_malloc_hook_active = 1;
-	signal(SIGSEGV, &sig_handler);
 }
 
 void	stop_malloc_catcher()
 {
 	g_malloc_hook_active = 0;
-	signal(SIGSEGV, SIG_DFL);
 }
 
 void	stop_malloc_catcher_and_print_leaks()

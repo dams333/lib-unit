@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/25 14:54:09 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:13:41 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,9 @@ typedef struct s_alloc_list
 extern int g_malloc_hook_active;
 extern int	g_malloc_crash_active;
 extern t_alloc_list	*alloc_list;
+extern int	g_log_fd;
+extern int	g_leaks;
+extern int	g_print_leaks;
 
 extern  void *__libc_malloc(size_t size);
 extern  void *__libc_free(void *ptr);
