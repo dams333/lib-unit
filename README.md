@@ -50,6 +50,7 @@ You can test what is written on STDOUT. For this:
 - If the test crash with `malloc breaker` ans the same test doesn't crash without. That's you have a non protected malloc
 - You can use  `stop_malloc_catcher` to stop checking the malloc without checking the leaks
 - To use malloc tests, you need to compile the executable with `-ldl -rdynamic`
+- Special thanks to tmatis and his `https://github.com/tmatis/ft_mallocator` for the explanation of his strategy to catch the mallocs
 # Examples
 ## Basic
 This is what your main could look like:
