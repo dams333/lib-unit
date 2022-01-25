@@ -8,6 +8,8 @@
 # include <fcntl.h>
 # include <string.h>
 # include <dlfcn.h>
+# include <signal.h>
+# include <unistd.h>
 
 typedef struct
 {
@@ -20,18 +22,21 @@ typedef struct
 typedef struct s_alloc_list
 {
 	void	*ptr;
-	void 	**backtrace;
 	struct s_alloc_list *next;
+	void 	**backtrace;
 }	t_alloc_list;
 
-extern int g_malloc_hook_active;
 extern  void *__libc_malloc(size_t size);
 extern  void *__libc_free(void *ptr);
+int 		dladdr(void *address, Dl_info *dlip);
 
 void *malloc(size_t size);
 void free(void *ptr);
-int	count_no_free();
 
-int 		dladdr(void *address, Dl_info *dlip);
+void	start_malloc_catcher();
+void	stop_malloc_catcher();
+void	stop_malloc_catcher_and_print_leaks();
+void	start_malloc_breaker();
+void	stop_malloc_breaker();
 
 #endif

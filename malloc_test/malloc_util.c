@@ -1,6 +1,6 @@
 #include "malloc_test.h"
 
-int g_malloc_hook_active = 1;
+int g_malloc_hook_active = 0;
 int	g_malloc_crash_active = 0;
 t_alloc_list	*alloc_list = NULL;
 
@@ -43,12 +43,17 @@ void get_backtrace(void *trace[])
 void	print_trace(void *trace[])
 {
 	for(int i = 0; trace[i]; i++)
-		printf("%s ", get_func_name(trace[i]));
+	{
+		if(i == 0)
+			printf("%s", get_func_name(trace[i]));
+		else
+			printf(" <-- %s", get_func_name(trace[i]));
+	}
 	printf("\n");
 }
 
 
-void	add_alloc_elem(void *ptr, void *backtrace[])
+void	add_alloc_elem(void *ptr, void *backtrace[100])
 {
 	t_alloc_list *new_elem = malloc(sizeof(t_alloc_list));
 	
@@ -70,15 +75,11 @@ void	remove_alloc_elem(void *ptr)
 {
 	t_alloc_list *elem = alloc_list;
 	if(elem->ptr == ptr)
-	{
-		print_trace(elem->backtrace);
 		alloc_list = elem->next;
-	}
 	else
 	{
 		while(elem->next->ptr != ptr)
 			elem = elem->next;
-		print_trace(elem->backtrace);
 		elem->next = elem->next->next;
 	}
 }
@@ -90,17 +91,25 @@ void *alloc_hook(size_t size)
 
 	g_malloc_hook_active = 0;
 	get_backtrace(route);
-	printf("Call malloc\n");
-	print_trace(route);
 	if(g_malloc_crash_active)
 		result = NULL;
 	else
 		result = malloc(size);
-	if(result != NULL)
-		add_alloc_elem(result, route);
+	add_alloc_elem(result, route);
 	g_malloc_hook_active = 1;
 	return result;
 }
+
+t_alloc_list *get_last()
+{
+	t_alloc_list *elem = alloc_list;
+	if(elem == NULL)
+		return NULL;
+	while(elem->next != NULL)
+		elem = elem->next;
+	return elem;
+}
+
 
 void *malloc(size_t size)
 {
@@ -113,7 +122,6 @@ void free_hook(void *ptr)
 {
 	(void)ptr;
 	g_malloc_hook_active = 0;
-	printf("Call free\n");
 	if(ptr != NULL)
 		remove_alloc_elem(ptr);
 	g_malloc_hook_active = 1;
@@ -132,14 +140,69 @@ int	count_no_free()
 		return 0;
 	int count = 0;
 	t_alloc_list *elem = alloc_list;
-	int idx = 0;
 	while(elem != NULL)
 	{
-		printf("%i Not freed from: ", idx);
-		idx++;
-		print_trace(elem->backtrace);
+		if(elem->ptr != NULL)
+			count++;
 		elem = elem->next;
-		count++;
 	}
 	return (count);
+}
+
+void	print_leak_summary()
+{
+	int leaks = count_no_free();
+	printf("===== Leaks Summary =====\n");
+	if(leaks == 0)
+		printf("No Leaks !\n");
+	else
+	{
+		t_alloc_list *elem = alloc_list;
+		while(elem != NULL)
+		{
+			if(elem->ptr != NULL)
+			{
+				printf("Leak from: ");
+				print_trace(elem->backtrace);
+			}
+			elem = elem->next;
+		}
+	}
+}
+
+void	sig_handler(int signum)
+{
+	g_malloc_hook_active = 0;
+	g_malloc_crash_active = 0;
+	printf("Crash detected, probably your malloc are not protected !\n");
+	signal(signum, SIG_DFL);
+    kill(getpid(), signum);
+}
+
+void	start_malloc_catcher()
+{
+	g_malloc_hook_active = 1;
+	signal(SIGSEGV, &sig_handler);
+}
+
+void	stop_malloc_catcher()
+{
+	g_malloc_hook_active = 0;
+	signal(SIGSEGV, SIG_DFL);
+}
+
+void	stop_malloc_catcher_and_print_leaks()
+{
+	stop_malloc_catcher();
+	print_leak_summary();
+}
+
+void	start_malloc_breaker()
+{
+	g_malloc_crash_active = 1;
+}
+
+void	stop_malloc_breaker()
+{
+	g_malloc_crash_active = 0;
 }
