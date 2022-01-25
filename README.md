@@ -160,7 +160,7 @@ str[0] = 'c';
 stop_malloc_breaker();
 stop_malloc_catcher_and_print_leaks();
 ```
-A test like that gonna print a leaks summary in the log because the result `str` is not free (`test_var` doesn't appear in log file because it's malloced before the `start_malloc_catcher`)
+A test like that gonna print a leaks summary in the log because the `str` is not free (`test_var` doesn't appear in log file because it's malloced before the `start_malloc_catcher`)
 ```c
 char *test_var = malloc(10);
 start_malloc_catcher();
