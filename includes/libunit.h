@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 09:32:14 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/01/24 15:58:49 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:54:09 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdarg.h>
+# include <execinfo.h>
+# include <errno.h>
+# include <dlfcn.h>
 
 # define TIMEOUT 1
 
@@ -99,5 +102,40 @@ void	print_header();
 
 t_stdout	*init_stdout_test();
 void	end_stdout_test(t_stdout *output);
+
+typedef struct
+{
+	const char *dli_fname;
+	void *dli_fbase;
+	const char *dli_sname;
+	void *dli_saddr;
+} Dl_info;
+
+typedef struct s_alloc_list
+{
+	void	*ptr;
+	struct s_alloc_list *next;
+	void 	**backtrace;
+}	t_alloc_list;
+
+extern int g_malloc_hook_active;
+extern int	g_malloc_crash_active;
+extern t_alloc_list	*alloc_list;
+
+extern  void *__libc_malloc(size_t size);
+extern  void *__libc_free(void *ptr);
+int 		dladdr(void *address, Dl_info *dlip);
+
+void *malloc(size_t size);
+void free(void *ptr);
+
+void	start_malloc_catcher();
+void	stop_malloc_catcher();
+void	stop_malloc_catcher_and_print_leaks();
+void	start_malloc_breaker();
+void	stop_malloc_breaker();
+
+void get_backtrace(void *trace[]);
+
 
 #endif

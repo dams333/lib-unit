@@ -6,7 +6,7 @@
 #    By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/08 10:05:58 by dhubleur          #+#    #+#              #
-#    Updated: 2022/01/24 13:59:26 by dhubleur         ###   ########.fr        #
+#    Updated: 2022/01/25 14:56:40 by dhubleur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME		= 	libunit.a
 CC			= 	gcc
-CFLAGS		=	-g3	
+CFLAGS		=	-g3
 
 RUN_PARAM	=
 
@@ -29,7 +29,9 @@ SRCS_PATH		=	./srcs
 SRCS			=	runner.c \
 					printer.c \
 					test_utils.c \
-					stdout.c
+					stdout.c \
+					malloc_hook.c \
+					malloc_utils.c
 					
 ###########################################s#####################################
 #								  Includes									   #
